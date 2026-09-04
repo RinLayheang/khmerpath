@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * The palette is warm sandstone + deep teal: readable, calm, and distinct from
+ * the blue-grey template look. Khmer script needs more vertical room than
+ * Latin, so line-height is set generously and raised again on `[lang="km"]`.
+ */
+@theme {
+  --color-surface: #faf7f2;
+  --color-surface-raised: #ffffff;
+  --color-surface-sunken: #f2ede4;
+  --color-ink: #1c2321;
+  --color-ink-soft: #55605c;
+  --color-ink-faint: #8a938f;
+  --color-line: #e3dcd0;
+
+  --color-brand: #0f5f5c;
+  --color-brand-soft: #d7ebe8;
+  --color-brand-deep: #0a4442;
+
+  --color-accent: #c2620e;
+  --color-accent-soft: #fbeadb;
+
+  --color-demand-very-high: #0f766e;
+  --color-demand-high: #4d7c0f;
+  --color-demand-medium: #b45309;
+  --color-demand-low: #7c6f64;
+
+  --font-sans: "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
+  --font-khmer: "Noto Sans Khmer", "Khmer OS Battambang", ui-sans-serif, sans-serif;
+
+  --radius-card: 14px;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* Khmer needs taller lines and slightly larger glyphs to stay legible. */
+  [lang="km"] {
+    font-family: var(--font-khmer);
+    line-height: 1.95;
+    letter-spacing: 0;
+  }
+
+  [lang="km"] h1,
+  [lang="km"] h2,
+  [lang="km"] h3 {
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-weight: 650;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--color-surface-raised);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .card-link {
+    transition:
+      border-color 140ms ease,
+      transform 140ms ease,
+      box-shadow 140ms ease;
+  }
+
+  .card-link:hover {
+    border-color: var(--color-brand);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -12px rgba(15, 95, 92, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-link:hover {
+    transform: none;
+  }
+}

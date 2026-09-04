@@ -1,0 +1,263 @@
+import type { Locale } from "@/lib/types";
+
+/**
+ * UI strings. Data strings (major names, school names, ...) live with the data
+ * in `src/data`; this file is only chrome: navigation, labels, buttons.
+ */
+export const dictionaries = {
+  km: {
+    siteName: "ផ្លូវខ្ញុំ",
+    tagline: "រកជំនាញ សាកលវិទ្យាល័យ និងប្រាក់ខែពិតប្រាកដ មុនពេលសម្រេចចិត្ត",
+    nav: {
+      home: "ទំព័រដើម",
+      majors: "ជំនាញសិក្សា",
+      schools: "សាកលវិទ្យាល័យ",
+      about: "អំពីយើង",
+    },
+    home: {
+      heroTitle: "បាក់ឌុបរួចហើយ។ ឥឡូវជ្រើសរើសអ្វី?",
+      heroBody:
+        "ប្រៀបធៀបជំនាញសិក្សា មើលប្រាក់ខែពិតប្រាកដនៅកម្ពុជា និងស្វែងរកសាកលវិទ្យាល័យដែលបង្រៀនជំនាញនោះ — ទាំងអស់នៅកន្លែងតែមួយ។",
+      ctaMajors: "រកមើលជំនាញ",
+      ctaSchools: "រកមើលសាកលវិទ្យាល័យ",
+      statMajors: "ជំនាញសិក្សា",
+      statSchools: "សាកលវិទ្យាល័យ",
+      statCareers: "មុខរបរ",
+      howTitle: "របៀបប្រើ",
+      howSteps: [
+        {
+          title: "១. មើលជំនាញ",
+          body: "អានពីអ្វីដែលអ្នកនឹងរៀន មុខរបរដែលអាចធ្វើបាន និងតម្រូវការទីផ្សារ។",
+        },
+        {
+          title: "២. ពិនិត្យប្រាក់ខែ",
+          body: "មើលប្រាក់ខែចាប់ផ្តើម និងប្រាក់ខែក្រោយពី ៥ ឆ្នាំ សម្រាប់មុខរបរនីមួយៗ។",
+        },
+        {
+          title: "៣. ជ្រើសរើសសាលា",
+          body: "ប្រៀបធៀបថ្លៃសិក្សា ទីតាំង និងអាហារូបករណ៍ រួចទាក់ទងសាលាដោយផ្ទាល់។",
+        },
+      ],
+      trendingTitle: "ជំនាញដែលទីផ្សារត្រូវការខ្លាំង",
+      trendingBody: "ជំនាញទាំងនេះមានតម្រូវការការងារខ្ពស់នៅកម្ពុជាឆ្នាំនេះ។",
+      viewAll: "មើលទាំងអស់",
+    },
+    majors: {
+      title: "ជំនាញសិក្សា",
+      subtitle: "ជ្រើសរើសជំនាញដើម្បីមើលមុខរបរ ប្រាក់ខែ និងសាលាដែលបង្រៀន។",
+      searchPlaceholder: "ស្វែងរកជំនាញ ឬមុខរបរ...",
+      filterCategory: "វិស័យ",
+      filterDemand: "តម្រូវការទីផ្សារ",
+      all: "ទាំងអស់",
+      resultsOne: "លទ្ធផល ១",
+      resultsMany: "លទ្ធផល",
+      noResults: "រកមិនឃើញជំនាញត្រូវនឹងលក្ខខណ្ឌទេ។ សាកល្បងពាក្យផ្សេង។",
+      clearFilters: "សម្អាតតម្រង",
+    },
+    schools: {
+      title: "សាកលវិទ្យាល័យ",
+      subtitle: "ថ្លៃសិក្សា ទីតាំង ជំនាញ និងអាហារូបករណ៍។",
+      searchPlaceholder: "ស្វែងរកសាលា...",
+      filterProvince: "ខេត្ត/ក្រុង",
+      filterType: "ប្រភេទ",
+      filterMajor: "បង្រៀនជំនាញ",
+      public: "រដ្ឋ",
+      private: "ឯកជន",
+      noResults: "រកមិនឃើញសាលាត្រូវនឹងលក្ខខណ្ឌទេ។",
+      visitWebsite: "គេហទំព័រផ្លូវការ",
+      foundedIn: "បង្កើតឆ្នាំ",
+      tuition: "ថ្លៃសិក្សា",
+      perYear: "ក្នុងមួយឆ្នាំ",
+      scholarships: "អាហារូបករណ៍",
+      admission: "ការចូលរៀន",
+      majorsOffered: "ជំនាញដែលបង្រៀន",
+      relatedSchools: "សាលាផ្សេងទៀត",
+    },
+    major: {
+      backToMajors: "ត្រឡប់ទៅជំនាញទាំងអស់",
+      overview: "ទិដ្ឋភាពទូទៅ",
+      studyLength: "រយៈពេលសិក្សា",
+      years: "ឆ្នាំ",
+      demand: "តម្រូវការទីផ្សារ",
+      entrySalary: "ប្រាក់ខែចាប់ផ្តើម",
+      midSalary: "ក្រោយ ៥ ឆ្នាំ",
+      perMonth: "ក្នុងមួយខែ",
+      goodFitIf: "ជំនាញនេះសាកសមនឹងអ្នក បើ...",
+      keySkills: "ជំនាញសំខាន់ៗដែលនឹងរៀន",
+      subjects: "មុខវិជ្ជាគួរខ្លាំងមុនចូលរៀន",
+      careers: "មុខរបរ និងប្រាក់ខែ",
+      careersNote:
+        "ប្រាក់ខែជាតួលេខប្រហាក់ប្រហែលសម្រាប់និយោជិតខ្មែរ ធ្វើការពេញម៉ោងនៅភ្នំពេញ គិតជាដុល្លារក្នុងមួយខែ។",
+      career: "មុខរបរ",
+      whereToStudy: "រៀននៅឯណា",
+      related: "ជំនាញជិតស្និទ្ធ",
+      tableEntry: "ចាប់ផ្តើម",
+      tableExperienced: "មានបទពិសោធន៍",
+      tableDemand: "តម្រូវការ",
+    },
+    demand: {
+      "very-high": "ខ្ពស់ណាស់",
+      high: "ខ្ពស់",
+      medium: "មធ្យម",
+      low: "ទាប",
+    },
+    category: {
+      technology: "បច្ចេកវិទ្យា",
+      engineering: "វិស្វកម្ម",
+      business: "ធុរកិច្ច",
+      health: "សុខាភិបាល",
+      science: "វិទ្យាសាស្ត្រ",
+      social: "សង្គមសាស្ត្រ",
+      arts: "សិល្បៈ និងមនុស្សសាស្ត្រ",
+      agriculture: "កសិកម្ម",
+      education: "អប់រំ",
+      hospitality: "ទេសចរណ៍",
+    },
+    about: {
+      title: "អំពីផ្លូវខ្ញុំ",
+      body: "ផ្លូវខ្ញុំ ជាគេហទំព័រសម្រាប់សិស្សបញ្ចប់វិទ្យាល័យនៅកម្ពុជា ដើម្បីស្វែងយល់ពីជំនាញសិក្សា សាកលវិទ្យាល័យ និងតម្លៃទីផ្សារការងារ មុនពេលសម្រេចចិត្តជ្រើសរើសអនាគត។",
+      dataTitle: "ប្រភពទិន្នន័យ",
+      dataBody:
+        "តួលេខប្រាក់ខែជាការប៉ាន់ស្មានចងក្រងពីរបាយការណ៍ទីផ្សារការងារកម្ពុជា និងការផ្សាយជ្រើសរើសបុគ្គលិកជាសាធារណៈ។ ថ្លៃសិក្សាអាចប្រែប្រួល — សូមផ្ទៀងផ្ទាត់ជាមួយសាលាដោយផ្ទាល់មុនសម្រេចចិត្ត។",
+      contribTitle: "ចង់បន្ថែមទិន្នន័យ?",
+      contribBody:
+        "ទិន្នន័យទាំងអស់ស្ថិតក្នុងឯកសារ src/data។ បន្ថែមជំនាញ ឬសាលាថ្មី គ្រាន់តែបន្ថែមធាតុមួយក្នុងអារេ។",
+    },
+    footer: {
+      disclaimer:
+        "តួលេខប្រាក់ខែ និងថ្លៃសិក្សា ជាការប៉ាន់ស្មានសម្រាប់ជាការណែនាំ។ សូមផ្ទៀងផ្ទាត់ជាមួយសាលា និងនិយោជកដោយផ្ទាល់។",
+      builtFor: "សម្រាប់សិស្សកម្ពុជា",
+    },
+  },
+
+  en: {
+    siteName: "KhmerPath",
+    tagline: "Find your major, your school, and what the job actually pays",
+    nav: {
+      home: "Home",
+      majors: "Majors",
+      schools: "Universities",
+      about: "About",
+    },
+    home: {
+      heroTitle: "Bac II is done. Now what?",
+      heroBody:
+        "Compare majors, see what they really pay in Cambodia, and find the universities that teach them — all in one place.",
+      ctaMajors: "Explore majors",
+      ctaSchools: "Browse universities",
+      statMajors: "majors",
+      statSchools: "universities",
+      statCareers: "career paths",
+      howTitle: "How it works",
+      howSteps: [
+        {
+          title: "1. Explore majors",
+          body: "Read what you'd actually study, the jobs it leads to, and how much demand there is.",
+        },
+        {
+          title: "2. Check the pay",
+          body: "See starting salaries and what the same job pays after about five years.",
+        },
+        {
+          title: "3. Pick a school",
+          body: "Compare tuition, location and scholarships, then contact the school directly.",
+        },
+      ],
+      trendingTitle: "Majors the market wants",
+      trendingBody: "These fields have the strongest hiring demand in Cambodia right now.",
+      viewAll: "View all",
+    },
+    majors: {
+      title: "Majors",
+      subtitle: "Pick a major to see its careers, salaries, and where to study it.",
+      searchPlaceholder: "Search a major or job title...",
+      filterCategory: "Field",
+      filterDemand: "Market demand",
+      all: "All",
+      resultsOne: "1 result",
+      resultsMany: "results",
+      noResults: "No majors match those filters. Try a different search.",
+      clearFilters: "Clear filters",
+    },
+    schools: {
+      title: "Universities",
+      subtitle: "Tuition, location, majors offered, and scholarships.",
+      searchPlaceholder: "Search a university...",
+      filterProvince: "Province",
+      filterType: "Type",
+      filterMajor: "Teaches major",
+      public: "Public",
+      private: "Private",
+      noResults: "No universities match those filters.",
+      visitWebsite: "Official website",
+      foundedIn: "Founded",
+      tuition: "Tuition",
+      perYear: "per year",
+      scholarships: "Scholarships",
+      admission: "Admission",
+      majorsOffered: "Majors offered",
+      relatedSchools: "Other universities",
+    },
+    major: {
+      backToMajors: "Back to all majors",
+      overview: "Overview",
+      studyLength: "Length of study",
+      years: "years",
+      demand: "Market demand",
+      entrySalary: "Starting salary",
+      midSalary: "After ~5 years",
+      perMonth: "per month",
+      goodFitIf: "This might fit you if...",
+      keySkills: "Key skills you'll build",
+      subjects: "Subjects to be strong in first",
+      careers: "Careers and pay",
+      careersNote:
+        "Figures are indicative monthly USD for Khmer nationals in full-time roles, mostly Phnom Penh.",
+      career: "Role",
+      whereToStudy: "Where to study it",
+      related: "Related majors",
+      tableEntry: "Entry",
+      tableExperienced: "Experienced",
+      tableDemand: "Demand",
+    },
+    demand: {
+      "very-high": "Very high",
+      high: "High",
+      medium: "Medium",
+      low: "Low",
+    },
+    category: {
+      technology: "Technology",
+      engineering: "Engineering",
+      business: "Business",
+      health: "Health",
+      science: "Science",
+      social: "Social sciences",
+      arts: "Arts & humanities",
+      agriculture: "Agriculture",
+      education: "Education",
+      hospitality: "Hospitality & tourism",
+    },
+    about: {
+      title: "About KhmerPath",
+      body: "KhmerPath helps Cambodian high school graduates understand their options: what each major involves, which universities teach it, and what the job market actually pays — before they commit to four years and a lot of tuition.",
+      dataTitle: "Where the data comes from",
+      dataBody:
+        "Salary figures are indicative ranges compiled from Cambodian labour-market reporting and public job postings. Tuition changes often — always confirm directly with the school before deciding.",
+      contribTitle: "Want to add data?",
+      contribBody:
+        "Everything lives in src/data. Adding a major or a university is just one more entry in an array.",
+    },
+    footer: {
+      disclaimer:
+        "Salary and tuition figures are indicative guidance, not quotes. Confirm with schools and employers directly.",
+      builtFor: "Built for Cambodian students",
+    },
+  },
+} as const;
+
+export type Dictionary = (typeof dictionaries)[Locale];
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionaries[locale];
+}
