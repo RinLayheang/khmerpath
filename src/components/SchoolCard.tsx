@@ -17,11 +17,11 @@ export function SchoolCard({
   return (
     <Link
       href={`/${lang}/schools/${school.slug}`}
-      className="card card-link flex flex-col gap-3 p-5"
+      className="card card-link flex flex-col gap-3 p-5 hover:border-[#0F172A]"
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-xs font-medium uppercase tracking-wide text-accent">
+          <p className="text-xs font-medium uppercase tracking-wide text-gold">
             {school.province[lang]} ·{" "}
             {school.type === "public" ? dict.schools.public : dict.schools.private}
           </p>

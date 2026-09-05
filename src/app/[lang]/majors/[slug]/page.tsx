@@ -3,9 +3,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { majors, getMajor } from "@/data/majors";
 import {
-  schoolsForMajor,
+  fetchMajors,
+  fetchMajorBySlug,
+  fetchSchoolsForMajor,
+} from "@/lib/api";
+import {
   relatedMajors,
   maxSalaryMidpoint,
 } from "@/lib/queries";
@@ -13,9 +16,10 @@ import { formatRange, localizeNumber } from "@/lib/format";
 import { DemandBadge } from "@/components/DemandBadge";
 import { SalaryBar } from "@/components/SalaryBar";
 import { SchoolCard } from "@/components/SchoolCard";
-import { majorsForSchool } from "@/lib/queries";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const majors = await fetchMajors();
   return locales.flatMap((lang) =>
     majors.map((major) => ({ lang, slug: major.slug })),
   );
@@ -27,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
   const { lang, slug } = await params;
-  const major = getMajor(slug);
+  const major = await fetchMajorBySlug(slug);
   if (!major || !isLocale(lang)) return {};
   return {
     title: `${major.name[lang]} — KhmerPath`,
@@ -42,28 +46,30 @@ export default async function MajorDetailPage({
 }) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
-  const major = getMajor(slug);
+  const major = await fetchMajorBySlug(slug);
   if (!major) notFound();
 
   const dict = getDictionary(lang);
-  const whereToStudy = schoolsForMajor(major.slug);
-  const related = relatedMajors(major);
+  const whereToStudy = await fetchSchoolsForMajor(major.slug);
+  const allMajors = await fetchMajors();
+  const related = relatedMajors(major, allMajors);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <Link
-        href={`/${lang}/majors`}
-        className="text-sm text-ink-soft underline underline-offset-4 hover:text-brand"
-      >
-        ← {dict.major.backToMajors}
-      </Link>
+      <Breadcrumb
+        items={[
+          { label: dict.breadcrumb.home, href: `/${lang}` },
+          { label: dict.majors.title, href: `/${lang}/majors` },
+          { label: major.name[lang] },
+        ]}
+      />
 
       <header className="mt-4">
-        <p className="text-sm font-medium uppercase tracking-wide text-accent">
-          {dict.category[major.category]}
+        <p className="text-xs font-bold uppercase tracking-wider text-gold">
+          {dict.category[major.category as keyof typeof dict.category] || major.category}
         </p>
-        <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{major.name[lang]}</h1>
-        <p className="mt-3 max-w-2xl text-ink-soft">{major.description[lang]}</p>
+        <h1 className="mt-1 text-3xl font-extrabold sm:text-4xl text-ink">{major.name[lang]}</h1>
+        <p className="mt-3 max-w-2xl text-ink-soft leading-relaxed">{major.description[lang]}</p>
       </header>
 
       {/* Key numbers */}
@@ -101,9 +107,9 @@ export default async function MajorDetailPage({
         <section className="card p-5">
           <h2 className="font-semibold">{dict.major.goodFitIf}</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink-soft">
-            {major.goodFitIf.map((item) => (
+            {(major.goodFitIf || []).map((item) => (
               <li key={item.en} className="flex gap-2">
-                <span aria-hidden className="text-brand">
+                <span aria-hidden className="text-gold font-bold">
                   ✓
                 </span>
                 <span>{item[lang]}</span>
@@ -115,7 +121,7 @@ export default async function MajorDetailPage({
         <section className="card p-5">
           <h2 className="font-semibold">{dict.major.keySkills}</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {major.keySkills.map((skill) => (
+            {(major.keySkills || []).map((skill) => (
               <li
                 key={skill.en}
                 className="rounded-lg bg-surface-sunken px-2.5 py-1 text-sm text-ink-soft"
@@ -129,10 +135,10 @@ export default async function MajorDetailPage({
         <section className="card p-5">
           <h2 className="font-semibold">{dict.major.subjects}</h2>
           <ul className="mt-3 flex flex-wrap gap-2">
-            {major.subjectsToStrengthen.map((subject) => (
+            {(major.subjectsToStrengthen || []).map((subject) => (
               <li
                 key={subject.en}
-                className="rounded-lg bg-accent-soft px-2.5 py-1 text-sm text-accent"
+                className="rounded-lg bg-gold/15 px-2.5 py-1 text-sm font-medium text-slate-900"
               >
                 {subject[lang]}
               </li>
@@ -149,7 +155,7 @@ export default async function MajorDetailPage({
         </p>
 
         <div className="mt-5 space-y-4">
-          {major.careers.map((career) => (
+          {(major.careers || []).map((career) => (
             <article key={career.id} className="card p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="font-semibold">{career.title[lang]}</h3>
@@ -188,7 +194,7 @@ export default async function MajorDetailPage({
                 school={school}
                 lang={lang}
                 dict={dict}
-                majorCount={majorsForSchool(school.slug).length}
+                majorCount={school.majorSlugs?.length || 0}
               />
             ))}
           </div>

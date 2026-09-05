@@ -8,30 +8,34 @@
  * Latin, so line-height is set generously and raised again on `[lang="km"]`.
  */
 @theme {
-  --color-surface: #faf7f2;
+  --color-surface: #FFFFFF;
   --color-surface-raised: #ffffff;
-  --color-surface-sunken: #f2ede4;
-  --color-ink: #1c2321;
-  --color-ink-soft: #55605c;
-  --color-ink-faint: #8a938f;
-  --color-line: #e3dcd0;
+  --color-surface-sunken: #F8FAFC;
+  --color-ink: #0F172A;
+  --color-ink-soft: #475569;
+  --color-ink-faint: #94A3B8;
+  --color-line: #E2E8F0;
 
-  --color-brand: #0f5f5c;
-  --color-brand-soft: #d7ebe8;
-  --color-brand-deep: #0a4442;
+  --color-brand: #0F172A;
+  --color-brand-soft: #E2E8F0;
+  --color-brand-deep: #020617;
 
-  --color-accent: #c2620e;
-  --color-accent-soft: #fbeadb;
+  --color-accent: #F59E0B;
+  --color-accent-soft: #FEF3C7;
+  
+  --color-gold: #F59E0B;
+  --color-gold-deep: #D97706;
 
   --color-demand-very-high: #0f766e;
   --color-demand-high: #4d7c0f;
   --color-demand-medium: #b45309;
   --color-demand-low: #7c6f64;
 
-  --font-sans: "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
-  --font-khmer: "Noto Sans Khmer", "Khmer OS Battambang", ui-sans-serif, sans-serif;
+  --font-sans: var(--font-google-sans), "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
+  --font-khmer: var(--font-google-sans), "Noto Sans Khmer", "Khmer OS Battambang", ui-sans-serif, sans-serif;
 
-  --radius-card: 14px;
+  --radius-card: 12px;
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 @layer base {
@@ -47,7 +51,7 @@
     min-height: 100vh;
   }
 
-  /* Khmer needs taller lines and slightly larger glyphs to stay legible. */
+  /* Khmer needs taller lines and generous spacing so subscripts and upper diacritics never overlap */
   [lang="km"] {
     font-family: var(--font-khmer);
     line-height: 1.95;
@@ -56,8 +60,10 @@
 
   [lang="km"] h1,
   [lang="km"] h2,
-  [lang="km"] h3 {
-    line-height: 1.6;
+  [lang="km"] h3,
+  [lang="km"] h4 {
+    line-height: 1.55 !important;
+    letter-spacing: 0 !important;
   }
 
   h1,
@@ -72,7 +78,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-brand);
+    outline: 2px solid var(--color-gold);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -83,6 +89,7 @@
     background: var(--color-surface-raised);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
   }
 
   .card-link {
@@ -95,7 +102,7 @@
   .card-link:hover {
     border-color: var(--color-brand);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px -12px rgba(15, 95, 92, 0.45);
+    box-shadow: 0 8px 20px -12px rgba(15, 23, 42, 0.45);
   }
 }
 

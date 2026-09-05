@@ -19,7 +19,7 @@ export function SalaryBar({
   tone?: "brand" | "accent";
 }) {
   const width = scaleWidth(midpoint(range), max);
-  const color = tone === "accent" ? "var(--color-accent)" : "var(--color-brand)";
+  const color = tone === "accent" ? "var(--color-gold)" : "var(--color-brand)";
 
   return (
     <div>

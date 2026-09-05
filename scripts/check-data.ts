@@ -5,8 +5,15 @@
  * by hand: a typo'd slug, a duplicate, a salary range with min > max, or a
  * missing translation.
  */
-import { majors } from "../src/data/majors.ts";
-import { schools } from "../src/data/schools.ts";
+import { readFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const seedPath = resolve(__dirname, "../../khmerpath_backend/data/seed_data.json");
+const seedData = JSON.parse(readFileSync(seedPath, "utf-8"));
+const majors = seedData.majors;
+const schools = seedData.schools;
 
 const errors: string[] = [];
 const warnings: string[] = [];

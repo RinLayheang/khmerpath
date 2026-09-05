@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { majors } from "@/data/majors";
+import { fetchMajors } from "@/lib/api";
 import { MajorExplorer } from "@/components/MajorExplorer";
 
 export function generateStaticParams() {
@@ -16,6 +16,7 @@ export default async function MajorsPage({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
+  const majors = await fetchMajors();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">

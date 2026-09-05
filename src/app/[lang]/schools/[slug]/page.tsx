@@ -3,12 +3,18 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { schools, getSchool } from "@/data/schools";
-import { majorsForSchool, nearbySchools } from "@/lib/queries";
+import {
+  fetchSchools,
+  fetchSchoolBySlug,
+  fetchMajorsForSchool,
+} from "@/lib/api";
+import { nearbySchools } from "@/lib/queries";
 import { formatRange, localizeNumber } from "@/lib/format";
 import { MajorCard } from "@/components/MajorCard";
+import { Breadcrumb } from "@/components/Breadcrumb";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const schools = await fetchSchools();
   return locales.flatMap((lang) =>
     schools.map((school) => ({ lang, slug: school.slug })),
   );
@@ -20,7 +26,7 @@ export async function generateMetadata({
   params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
   const { lang, slug } = await params;
-  const school = getSchool(slug);
+  const school = await fetchSchoolBySlug(slug);
   if (!school || !isLocale(lang)) return {};
   return {
     title: `${school.name[lang]} — KhmerPath`,
@@ -35,46 +41,52 @@ export default async function SchoolDetailPage({
 }) {
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
-  const school = getSchool(slug);
+  const school = await fetchSchoolBySlug(slug);
   if (!school) notFound();
 
   const dict = getDictionary(lang);
-  const offered = majorsForSchool(school.slug);
-  const nearby = nearbySchools(school);
+  const [offered, allSchools] = await Promise.all([
+    fetchMajorsForSchool(school.slug),
+    fetchSchools(),
+  ]);
+  const nearby = nearbySchools(school, allSchools);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-      <Link
-        href={`/${lang}/schools`}
-        className="text-sm text-ink-soft underline underline-offset-4 hover:text-brand"
-      >
-        ← {dict.schools.title}
-      </Link>
+      <Breadcrumb
+        items={[
+          { label: dict.breadcrumb.home, href: `/${lang}` },
+          { label: dict.schools.title, href: `/${lang}/schools` },
+          { label: school.name[lang] },
+        ]}
+      />
 
       <header className="mt-4">
-        <p className="text-sm font-medium uppercase tracking-wide text-accent">
+        <p className="text-xs font-bold uppercase tracking-wider text-gold">
           {school.province[lang]} ·{" "}
           {school.type === "public" ? dict.schools.public : dict.schools.private}
           {school.founded
             ? ` · ${dict.schools.foundedIn} ${localizeNumber(school.founded, lang)}`
             : ""}
         </p>
-        <h1 className="mt-1 text-3xl font-bold sm:text-4xl">{school.name[lang]}</h1>
-        <p className="mt-3 max-w-2xl text-ink-soft">{school.summary[lang]}</p>
-        <a
-          href={school.website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block rounded-xl bg-brand px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-deep"
-        >
-          {dict.schools.visitWebsite} ↗
-        </a>
+        <h1 className="mt-1 text-3xl font-extrabold sm:text-4xl text-ink">{school.name[lang]}</h1>
+        <p className="mt-3 max-w-2xl text-ink-soft leading-relaxed">{school.summary[lang]}</p>
+        {school.website && (
+          <a
+            href={school.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex min-h-[44px] items-center justify-center rounded-xl bg-gold px-5 py-2.5 text-sm font-bold text-slate-950 shadow-sm transition-all hover:bg-amber-400 hover:shadow-md focus-visible:outline-2 focus-visible:outline-slate-900"
+          >
+            {dict.schools.visitWebsite} ↗
+          </a>
+        )}
       </header>
 
       <div className="mt-8 grid gap-4 lg:grid-cols-3">
         <section className="card p-5">
           <h2 className="font-semibold">{dict.schools.tuition}</h2>
-          <p className="mt-2 text-2xl font-bold tabular-nums">
+          <p className="mt-2 text-2xl font-bold tabular-nums text-ink">
             {formatRange(school.tuitionPerYear, lang)}
           </p>
           <p className="text-sm text-ink-faint">{dict.schools.perYear}</p>
@@ -83,9 +95,9 @@ export default async function SchoolDetailPage({
         <section className="card p-5">
           <h2 className="font-semibold">{dict.schools.scholarships}</h2>
           <ul className="mt-3 space-y-2 text-sm text-ink-soft">
-            {school.scholarships.map((item) => (
+            {(school.scholarships || []).map((item) => (
               <li key={item.en} className="flex gap-2">
-                <span aria-hidden className="text-brand">
+                <span aria-hidden className="text-gold font-bold">
                   ★
                 </span>
                 <span>{item[lang]}</span>
@@ -97,7 +109,7 @@ export default async function SchoolDetailPage({
         <section className="card p-5">
           <h2 className="font-semibold">{dict.schools.admission}</h2>
           <p className="mt-3 text-sm text-ink-soft">
-            {school.admissionNotes[lang]}
+            {school.admissionNotes ? school.admissionNotes[lang] : ""}
           </p>
         </section>
       </div>

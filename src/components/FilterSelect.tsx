@@ -17,7 +17,7 @@ export function FilterSelect({
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-lg border border-line bg-surface-raised px-3 py-2 text-sm text-ink shadow-none"
+        className="rounded-lg border border-line bg-surface-raised px-3 py-2 text-sm text-ink shadow-none focus:ring-gold"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

@@ -16,11 +16,11 @@ export function MajorCard({
   return (
     <Link
       href={`/${lang}/majors/${major.slug}`}
-      className="card card-link flex flex-col gap-3 p-5"
+      className="card card-link flex flex-col gap-3 p-5 hover:border-[#0F172A]"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-accent">
+          <p className="text-xs font-medium uppercase tracking-wide text-gold">
             {dict.category[major.category]}
           </p>
           <h3 className="mt-1 text-lg font-semibold">{major.name[lang]}</h3>

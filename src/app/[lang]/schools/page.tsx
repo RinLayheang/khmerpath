@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { schools } from "@/data/schools";
-import { majors } from "@/data/majors";
-import { majorsForSchool, provinces } from "@/lib/queries";
+import { fetchSchools, fetchMajors } from "@/lib/api";
+import { majorsForSchool, getProvinces } from "@/lib/queries";
 import { SchoolDirectory } from "@/components/SchoolDirectory";
 
 export function generateStaticParams() {
@@ -19,10 +18,13 @@ export default async function SchoolsPage({
   if (!isLocale(lang)) notFound();
   const dict = getDictionary(lang);
 
-  // Resolve the school-major links once on the server.
+  const [schools, majors] = await Promise.all([fetchSchools(), fetchMajors()]);
+  const provinces = getProvinces(schools);
+
+  // Resolve the school-major links on the server.
   const entries = schools.map((school) => ({
     school,
-    majorSlugs: majorsForSchool(school.slug).map((m) => m.slug),
+    majorSlugs: majorsForSchool(school, majors).map((m) => m.slug),
   }));
 
   const majorOptions = majors

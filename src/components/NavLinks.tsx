@@ -24,10 +24,10 @@ export function NavLinks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
             href={item.href}
             aria-current={active ? "page" : undefined}
             className={
-              "whitespace-nowrap rounded-lg px-2.5 py-1.5 transition-colors sm:px-3 " +
+              "flex min-h-[44px] items-center whitespace-nowrap rounded-lg px-2.5 py-1.5 transition-colors sm:px-3 hover:underline hover:decoration-gold hover:underline-offset-4 " +
               (active
                 ? "bg-brand-soft font-medium text-brand-deep"
-                : "text-ink-soft hover:bg-surface-sunken hover:text-ink")
+                : "text-ink-soft hover:bg-surface-sunken hover:text-ink hover:text-ink")
             }
           >
             {item.label}

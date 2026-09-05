@@ -10,11 +10,11 @@ export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
       <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3 sm:px-6">
         <Link
           href={`/${lang}`}
-          className="flex shrink-0 items-center gap-2 font-semibold tracking-tight"
+          className="flex min-h-[44px] shrink-0 items-center gap-2 font-semibold tracking-tight"
         >
           <span
             aria-hidden
-            className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white"
+            className="grid h-9 w-9 place-items-center rounded-lg bg-gold text-sm font-bold text-[#0F172A]"
           >
             ផ
           </span>
