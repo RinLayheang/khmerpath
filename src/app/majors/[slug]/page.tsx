@@ -1,8 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isLocale, locales } from "@/i18n/config";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getI18n } from "@/i18n/server";
 import {
   fetchMajors,
   fetchMajorBySlug,
@@ -20,19 +19,18 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 
 export async function generateStaticParams() {
   const majors = await fetchMajors();
-  return locales.flatMap((lang) =>
-    majors.map((major) => ({ lang, slug: major.slug })),
-  );
+  return majors.map((major) => ({ slug: major.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { lang, slug } = await params;
+  const { slug } = await params;
   const major = await fetchMajorBySlug(slug);
-  if (!major || !isLocale(lang)) return {};
+  const { lang } = await getI18n();
+  if (!major) return {};
   return {
     title: `${major.name[lang]} — KhmerPath`,
     description: major.summary[lang],
@@ -42,14 +40,13 @@ export async function generateMetadata({
 export default async function MajorDetailPage({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  const { slug } = await params;
   const major = await fetchMajorBySlug(slug);
   if (!major) notFound();
 
-  const dict = getDictionary(lang);
+  const { lang, dict } = await getI18n();
   const whereToStudy = await fetchSchoolsForMajor(major.slug);
   const allMajors = await fetchMajors();
   const related = relatedMajors(major, allMajors);
@@ -58,8 +55,8 @@ export default async function MajorDetailPage({
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <Breadcrumb
         items={[
-          { label: dict.breadcrumb.home, href: `/${lang}` },
-          { label: dict.majors.title, href: `/${lang}/majors` },
+          { label: dict.breadcrumb.home, href: "/" },
+          { label: dict.majors.title, href: "/majors" },
           { label: major.name[lang] },
         ]}
       />
@@ -209,7 +206,7 @@ export default async function MajorDetailPage({
             {related.map((item) => (
               <Link
                 key={item.slug}
-                href={`/${lang}/majors/${item.slug}`}
+                href={`/majors/${item.slug}`}
                 className="card card-link px-4 py-2 text-sm font-medium"
               >
                 {item.name[lang]}

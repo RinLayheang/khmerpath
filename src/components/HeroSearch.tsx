@@ -64,12 +64,12 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
     e.preventDefault();
     if (!query.trim()) return;
     setIsOpen(false);
-    router.push(`/${lang}/majors?q=${encodeURIComponent(query.trim())}`);
+    router.push(`/majors?q=${encodeURIComponent(query.trim())}`);
   };
 
   const handleSuggestionClick = (text: string) => {
     setQuery(text);
-    router.push(`/${lang}/majors?q=${encodeURIComponent(text)}`);
+    router.push(`/majors?q=${encodeURIComponent(text)}`);
   };
 
   const hasResults =
@@ -139,7 +139,7 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
                   {results.majors.map((m) => (
                     <Link
                       key={m.slug}
-                      href={`/${lang}/majors/${m.slug}`}
+                      href={`/majors/${m.slug}`}
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-between rounded-lg px-3 py-2 text-ink transition-colors hover:bg-surface-sunken"
                     >
@@ -164,7 +164,7 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
                   {results.universities.map((u) => (
                     <Link
                       key={u.slug}
-                      href={`/${lang}/schools/${u.slug}`}
+                      href={`/schools/${u.slug}`}
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-between rounded-lg px-3 py-2 text-ink transition-colors hover:bg-surface-sunken"
                     >
@@ -188,7 +188,7 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
                   {results.careers.map((c, i) => (
                     <Link
                       key={i}
-                      href={`/${lang}/majors/${c.majorSlug}`}
+                      href={`/majors/${c.majorSlug}`}
                       onClick={() => setIsOpen(false)}
                       className="flex items-center justify-between rounded-lg px-3 py-2 text-ink transition-colors hover:bg-surface-sunken"
                     >

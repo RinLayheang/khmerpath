@@ -1,8 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isLocale, locales } from "@/i18n/config";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getI18n } from "@/i18n/server";
 import {
   fetchSchools,
   fetchSchoolBySlug,
@@ -15,19 +14,18 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 
 export async function generateStaticParams() {
   const schools = await fetchSchools();
-  return locales.flatMap((lang) =>
-    schools.map((school) => ({ lang, slug: school.slug })),
-  );
+  return schools.map((school) => ({ slug: school.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { lang, slug } = await params;
+  const { slug } = await params;
   const school = await fetchSchoolBySlug(slug);
-  if (!school || !isLocale(lang)) return {};
+  const { lang } = await getI18n();
+  if (!school) return {};
   return {
     title: `${school.name[lang]} — KhmerPath`,
     description: school.summary[lang],
@@ -37,14 +35,13 @@ export async function generateMetadata({
 export default async function SchoolDetailPage({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { lang, slug } = await params;
-  if (!isLocale(lang)) notFound();
+  const { slug } = await params;
   const school = await fetchSchoolBySlug(slug);
   if (!school) notFound();
 
-  const dict = getDictionary(lang);
+  const { lang, dict } = await getI18n();
   const [offered, allSchools] = await Promise.all([
     fetchMajorsForSchool(school.slug),
     fetchSchools(),
@@ -55,8 +52,8 @@ export default async function SchoolDetailPage({
     <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
       <Breadcrumb
         items={[
-          { label: dict.breadcrumb.home, href: `/${lang}` },
-          { label: dict.schools.title, href: `/${lang}/schools` },
+          { label: dict.breadcrumb.home, href: "/" },
+          { label: dict.schools.title, href: "/schools" },
           { label: school.name[lang] },
         ]}
       />
@@ -136,7 +133,7 @@ export default async function SchoolDetailPage({
             {nearby.map((item) => (
               <Link
                 key={item.slug}
-                href={`/${lang}/schools/${item.slug}`}
+                href={`/schools/${item.slug}`}
                 className="card card-link px-4 py-2 text-sm font-medium"
               >
                 {item.name[lang]}

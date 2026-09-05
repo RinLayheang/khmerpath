@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { isLocale } from "@/i18n/config";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getI18n } from "@/i18n/server";
 import { fetchStats } from "@/lib/api";
 import { localizeNumber } from "@/lib/format";
 import { MajorCard } from "@/components/MajorCard";
@@ -9,15 +7,10 @@ import { FluidBackground } from "@/components/FluidBackground";
 import { HeroSearch } from "@/components/HeroSearch";
 import { FindMyMajorCard } from "@/components/FindMyMajorCard";
 import { StudentJourney } from "@/components/StudentJourney";
+import { UnblurTextReveal } from "@/components/UnblurTextReveal";
 
-export default async function HomePage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  if (!isLocale(lang)) notFound();
-  const dict = getDictionary(lang);
+export default async function HomePage() {
+  const { lang, dict } = await getI18n();
 
   const statsData = await fetchStats();
   const featured = statsData.topDemandMajors || [];
@@ -31,7 +24,7 @@ export default async function HomePage({
   return (
     <>
       {/* ── HERO SECTION WITH FLUID BACKGROUND & SMART SEARCH ───────── */}
-      <section className="relative border-b border-line bg-gradient-to-b from-slate-100/80 via-white to-surface overflow-hidden">
+      <section className="relative -mt-16 border-b border-line bg-gradient-to-b from-slate-100/80 via-white to-surface overflow-hidden pt-16">
         <FluidBackground />
         
         <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20 pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_input]:pointer-events-auto [&_form]:pointer-events-auto">
@@ -41,14 +34,24 @@ export default async function HomePage({
           </div>
 
           <h1 className="mt-4 max-w-3xl text-3xl font-extrabold text-ink leading-snug sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-[1.2] [html[lang='km']_&]:leading-[1.55]! sm:[html[lang='km']_&]:leading-[1.5]! lg:[html[lang='km']_&]:leading-[1.45]! [html[lang='km']_&]:tracking-normal! [html[lang='en']_&]:tracking-tight">
-            {dict.home.heroTitle}
+            <UnblurTextReveal
+              text={dict.home.heroTitle}
+              lang={lang}
+              duration={1.4}
+              delayStart={0.05}
+            />
           </h1>
           <p className="mt-4 max-w-2xl text-base text-ink-soft sm:text-lg leading-relaxed">
-            {dict.home.heroBody}
+            <UnblurTextReveal
+              text={dict.home.heroBody}
+              lang={lang}
+              duration={2.0}
+              delayStart={0.7}
+            />
           </p>
 
           {/* Smart Search Bar */}
-          <div className="mt-8">
+          <div className="animate-search-reveal mt-8">
             <HeroSearch
               lang={lang}
               dict={dict}
@@ -59,13 +62,13 @@ export default async function HomePage({
           {/* Primary & Secondary CTAs */}
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link
-              href={`/${lang}/majors`}
+              href="/majors"
               className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-gold px-6 py-3 text-sm font-bold text-slate-950 shadow transition-all hover:bg-amber-400 hover:shadow-md focus-visible:outline-2 focus-visible:outline-slate-900"
             >
               {dict.home.ctaMajors}
             </Link>
             <Link
-              href={`/${lang}/schools`}
+              href="/schools"
               className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-line bg-surface-raised/90 backdrop-blur-xs px-6 py-3 text-sm font-medium text-ink transition-all hover:border-ink hover:bg-surface-raised hover:shadow-xs focus-visible:outline-2 focus-visible:outline-gold"
             >
               {dict.home.ctaSchools}
@@ -141,7 +144,7 @@ export default async function HomePage({
             <p className="mt-1 text-sm text-ink-soft">{dict.home.trendingBody}</p>
           </div>
           <Link
-            href={`/${lang}/majors`}
+            href="/majors"
             className="inline-flex min-h-[44px] items-center text-sm font-semibold text-ink underline underline-offset-4 transition-colors hover:text-gold"
           >
             {dict.home.viewAll} →

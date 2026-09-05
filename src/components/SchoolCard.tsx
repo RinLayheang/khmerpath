@@ -16,7 +16,7 @@ export function SchoolCard({
 }) {
   return (
     <Link
-      href={`/${lang}/schools/${school.slug}`}
+      href={`/schools/${school.slug}`}
       className="card card-link flex flex-col gap-3 p-5 hover:border-[#0F172A]"
     >
       <div className="flex items-start justify-between gap-3">

@@ -5,30 +5,76 @@ import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/types";
 import type { Dictionary } from "@/i18n/dictionaries";
 
-export function NavLinks({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+interface NavLinksProps {
+  lang: Locale;
+  dict: Dictionary;
+  onNavigate?: () => void;
+  isMobile?: boolean;
+  isCompact?: boolean;
+}
+
+export function NavLinks({
+  lang,
+  dict,
+  onNavigate,
+  isMobile = false,
+  isCompact = false,
+}: NavLinksProps) {
   const pathname = usePathname();
 
   const items = [
-    { href: `/${lang}/majors`, label: dict.nav.majors },
-    { href: `/${lang}/schools`, label: dict.nav.schools },
-    { href: `/${lang}/about`, label: dict.nav.about },
+    { href: "/", label: dict.nav.home },
+    { href: "/majors", label: dict.nav.majors },
+    { href: "/schools", label: dict.nav.schools },
+    { href: "/about", label: dict.nav.about },
   ];
 
+  if (isMobile) {
+    return (
+      <nav className="flex flex-col gap-1.5 w-full" aria-label="Mobile Navigation">
+        {items.map((item) => {
+          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              aria-current={active ? "page" : undefined}
+              className={`flex min-h-[48px] items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-all ${
+                active
+                  ? "bg-slate-100 text-slate-900 font-semibold border border-slate-200/80 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 active:bg-slate-100"
+              }`}
+            >
+              <span className="leading-normal">{item.label}</span>
+              {active && (
+                <span className="h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.6)]" />
+              )}
+            </Link>
+          );
+        })}
+      </nav>
+    );
+  }
+
   return (
-    <nav className="flex items-center gap-1 overflow-x-auto text-sm sm:gap-2">
+    <nav className="hidden items-center md:flex gap-1" aria-label="Main Navigation">
       {items.map((item) => {
-        const active = pathname.startsWith(item.href);
+        const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
         return (
           <Link
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className={
-              "flex min-h-[44px] items-center whitespace-nowrap rounded-lg px-2.5 py-1.5 transition-colors sm:px-3 hover:underline hover:decoration-gold hover:underline-offset-4 " +
-              (active
-                ? "bg-brand-soft font-medium text-brand-deep"
-                : "text-ink-soft hover:bg-surface-sunken hover:text-ink hover:text-ink")
-            }
+            className={`group/link relative whitespace-nowrap rounded-full font-medium leading-normal transition-[padding,font-size,color,background-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              isCompact
+                ? "px-2.5 py-1 text-xs lg:text-[13px]"
+                : "px-3.5 py-1.5 text-xs lg:text-sm"
+            } ${
+              active
+                ? "bg-slate-900 text-white font-semibold shadow-xs"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
+            }`}
           >
             {item.label}
           </Link>

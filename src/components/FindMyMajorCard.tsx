@@ -81,7 +81,7 @@ export function FindMyMajorCard({ lang, dict }: FindMyMajorCardProps) {
           {/* Action button */}
           <div className="mt-6">
             <Link
-              href={`/${lang}/majors`}
+              href="/majors"
               className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-gold px-6 py-3 text-sm font-bold text-slate-950 shadow-md transition-all hover:bg-amber-400 hover:shadow-lg focus-visible:outline-2 focus-visible:outline-white"
             >
               <span>{dict.home.findMyMajorCta}</span>

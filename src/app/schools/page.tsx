@@ -1,22 +1,10 @@
-import { notFound } from "next/navigation";
-import { isLocale, locales } from "@/i18n/config";
-import { getDictionary } from "@/i18n/dictionaries";
+import { getI18n } from "@/i18n/server";
 import { fetchSchools, fetchMajors } from "@/lib/api";
 import { majorsForSchool, getProvinces } from "@/lib/queries";
 import { SchoolDirectory } from "@/components/SchoolDirectory";
 
-export function generateStaticParams() {
-  return locales.map((lang) => ({ lang }));
-}
-
-export default async function SchoolsPage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  if (!isLocale(lang)) notFound();
-  const dict = getDictionary(lang);
+export default async function SchoolsPage() {
+  const { lang, dict } = await getI18n();
 
   const [schools, majors] = await Promise.all([fetchSchools(), fetchMajors()]);
   const provinces = getProvinces(schools);
@@ -33,7 +21,7 @@ export default async function SchoolsPage({
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-bold sm:text-3xl">{dict.schools.title}</h1>
+      <h1 className="text-2xl font-bold sm:text-3xl text-ink">{dict.schools.title}</h1>
       <p className="mt-2 max-w-2xl text-ink-soft">{dict.schools.subtitle}</p>
 
       <div className="mt-6">
