@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Design tokens.
  *
@@ -36,6 +38,20 @@
 
   --radius-card: 12px;
   --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+html.dark {
+  --color-surface: #0B0F17;
+  --color-surface-raised: #111622;
+  --color-surface-sunken: #070A0F;
+  --color-ink: #F8FAFC;
+  --color-ink-soft: #94A3B8;
+  --color-ink-faint: #64748B;
+  --color-line: #1E293B;
+
+  --color-brand: #F8FAFC;
+  --color-brand-soft: #1E293B;
+  --color-brand-deep: #FFFFFF;
 }
 
 @layer base {

@@ -98,14 +98,14 @@ export function StudentJourney({ lang, dict }: StudentJourneyProps) {
                   <span
                     className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
                       stage.active
-                        ? "bg-slate-900 text-gold"
-                        : "bg-slate-200 text-slate-500"
+                        ? "bg-slate-900 text-gold dark:bg-amber-400/20 dark:text-amber-300"
+                        : "bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
                     }`}
                   >
                     {stage.number}
                   </span>
                   {!stage.active && (
-                    <span className="rounded-full bg-slate-200/80 px-2 py-0.5 text-[10px] font-medium text-slate-600">
+                    <span className="rounded-full bg-slate-200/80 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400">
                       {dict.home.comingSoon}
                     </span>
                   )}

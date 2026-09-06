@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import type { Metadata } from "next";
 import { getI18n } from "@/i18n/server";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -17,10 +18,27 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const { lang, dict } = await getI18n();
+  const cookieStore = await cookies();
+  const theme = cookieStore.get("theme")?.value;
+  const isDark = theme === "dark";
 
   return (
-    <html lang={lang} className={googleSans.variable}>
+    <html lang={lang} className={`${googleSans.variable} ${isDark ? "dark" : ""}`} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var t = localStorage.getItem('theme') || (document.cookie.match(/(?:^|;\\s*)theme=([^;]+)/)||[])[1];
+                if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                } else if (t === 'light') {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link

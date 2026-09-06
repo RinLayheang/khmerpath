@@ -62,9 +62,12 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!query.trim()) return;
     setIsOpen(false);
-    router.push(`/majors?q=${encodeURIComponent(query.trim())}`);
+    if (!query.trim()) {
+      router.push("/majors");
+    } else {
+      router.push(`/majors?q=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   const handleSuggestionClick = (text: string) => {
@@ -108,18 +111,37 @@ export function HeroSearch({ lang, dict, suggestions = [] }: HeroSearchProps) {
               if (hasResults) setIsOpen(true);
             }}
             placeholder={dict.home.searchPlaceholder}
-            className="w-full min-h-[52px] rounded-xl border border-line bg-surface-raised/95 pl-12 pr-28 text-base text-ink shadow-sm backdrop-blur-sm transition-all placeholder:text-ink-faint focus:border-gold focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-gold/30 sm:text-base"
+            className="w-full min-h-[52px] rounded-xl border border-line bg-surface-raised/95 pl-12 pr-32 text-base text-ink shadow-sm backdrop-blur-sm transition-all placeholder:text-ink-faint focus:border-gold focus:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-gold/30 sm:text-base"
           />
 
           {/* Submit button inside input */}
           <button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 min-h-[40px] px-4 rounded-lg bg-brand text-xs font-semibold text-white shadow transition-all hover:bg-brand-deep hover:shadow-md focus-visible:outline-2 focus-visible:outline-gold"
+            aria-label={dict.home.searchButton || (lang === "km" ? "ស្វែងរក" : "Search")}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[38px] px-3.5 sm:px-4 rounded-lg bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 text-xs font-semibold shadow-xs transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-gold flex items-center justify-center gap-1.5 active:scale-95"
           >
             {loading ? (
-              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
             ) : (
-              dict.home.viewAll || "Search"
+              <>
+                <svg
+                  className="h-3.5 w-3.5 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+                <span>
+                  {dict.home.searchButton || (lang === "km" ? "ស្វែងរក" : "Search")}
+                </span>
+              </>
             )}
           </button>
         </div>

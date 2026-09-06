@@ -2,10 +2,12 @@ import type { DemandLevel, Locale } from "@/lib/types";
 import type { Dictionary } from "@/i18n/dictionaries";
 
 const styles: Record<DemandLevel, string> = {
-  "very-high": "bg-[#0f766e]/12 text-[#0b5a54] ring-[#0f766e]/25",
-  high: "bg-[#4d7c0f]/12 text-[#3f6609] ring-[#4d7c0f]/25",
-  medium: "bg-[#b45309]/12 text-[#8f4207] ring-[#b45309]/25",
-  low: "bg-[#7c6f64]/12 text-[#5f544b] ring-[#7c6f64]/25",
+  "very-high":
+    "bg-[#0f766e]/12 text-[#0b5a54] ring-[#0f766e]/25 dark:bg-[#14b8a6]/20 dark:text-[#2dd4bf] dark:ring-[#2dd4bf]/30",
+  high: "bg-[#4d7c0f]/12 text-[#3f6609] ring-[#4d7c0f]/25 dark:bg-[#84cc16]/20 dark:text-[#a3e635] dark:ring-[#a3e635]/30",
+  medium:
+    "bg-[#b45309]/12 text-[#8f4207] ring-[#b45309]/25 dark:bg-[#f59e0b]/20 dark:text-[#fbbf24] dark:ring-[#fbbf24]/30",
+  low: "bg-[#7c6f64]/12 text-[#5f544b] ring-[#7c6f64]/25 dark:bg-slate-700/40 dark:text-slate-300 dark:ring-slate-600/40",
 };
 
 /** Number of filled pips, so demand reads at a glance without colour alone. */

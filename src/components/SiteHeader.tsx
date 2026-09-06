@@ -7,6 +7,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { useScrollDirection } from "@/lib/useScrollDirection";
 import { LanguageToggle } from "./LanguageToggle";
 import { NavLinks } from "./NavLinks";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface SiteHeaderProps {
   lang: Locale;
@@ -53,26 +54,26 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
-      {/* ── MORPHING NAVBAR CONTAINER ─────────────────────────── */}
+      {/* ── MORPHING NAVBAR CONTAINER (ROUNDED CAPSULE IN BOTH STATES) ─────── */}
       <div
         className={`flex justify-center transition-[padding] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           isScrolled
-            ? "px-3 pt-3 sm:px-4 sm:pt-4"
-            : "px-5 pt-0 sm:px-6 lg:px-10"
+            ? "px-3 pt-2.5 sm:px-4 sm:pt-3"
+            : "px-4 pt-3 sm:px-6 sm:pt-4 lg:px-8"
         }`}
       >
         <div
-          className={`pointer-events-auto flex items-center overflow-hidden backdrop-blur-md transition-[max-width,border-radius,padding,gap,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] w-full ${
+          className={`pointer-events-auto flex items-center overflow-hidden backdrop-blur-md transition-[max-width,border-radius,padding,gap,border-color,box-shadow,background-color] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] w-full rounded-full border ${
             isScrolled
-              ? "max-w-[44rem] gap-1 rounded-full border border-slate-200/90 bg-white/90 px-2.5 py-1.5 shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] sm:gap-2 sm:px-3 sm:py-2"
-              : "max-w-[80rem] gap-2 rounded-none border-x-0 border-t-0 border-b border-slate-200/80 bg-white/85 px-5 py-3.5 shadow-none md:gap-6 md:px-6 md:py-4 lg:px-10"
+              ? "max-w-[44rem] gap-1 border-slate-200/90 bg-white/90 px-2.5 py-1.5 shadow-[0_10px_40px_-12px_rgba(0,0,0,0.18)] sm:gap-2 sm:px-3 sm:py-2 dark:border-white/10 dark:bg-[#0b0f17]/90 dark:shadow-[0_10px_40px_-12px_rgba(0,0,0,0.7)]"
+              : "max-w-[80rem] gap-2 border-slate-200/80 bg-white/85 px-4 py-2 shadow-sm sm:px-6 sm:py-2.5 md:gap-6 lg:px-8 dark:border-white/10 dark:bg-[#0b0f17]/85"
           }`}
         >
           {/* ── LEFT: LOGO ────────────────────────────────────────── */}
           <Link
             href="/"
             onClick={() => setIsMobileMenuOpen(false)}
-            className="group flex shrink-0 items-center text-slate-900"
+            className="group flex shrink-0 items-center text-slate-900 dark:text-white"
             aria-label={dict.siteName}
           >
             <span
@@ -103,7 +104,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
           {/* ── DIVIDER (SCROLLED STATE ONLY) ────────────────────── */}
           <span
             aria-hidden="true"
-            className={`hidden h-5 w-px shrink-0 bg-slate-200 transition-[opacity,width] duration-300 ease-out md:block ${
+            className={`hidden h-5 w-px shrink-0 bg-slate-200 transition-[opacity,width] duration-300 ease-out md:block dark:bg-slate-800 ${
               isScrolled ? "opacity-100" : "w-0 opacity-0"
             }`}
           />
@@ -119,8 +120,12 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
 
           <div className="flex-1" />
 
-          {/* ── RIGHT: LANGUAGE SWITCHER & MOBILE BUTTON ─────────── */}
+          {/* ── RIGHT: THEME TOGGLE, LANGUAGE SWITCHER & MOBILE BUTTON ─────────── */}
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            {/* Google Icon Dark Mode Button */}
+            <ThemeToggle isCompact={isScrolled} />
+
+            {/* Language Switcher */}
             <LanguageToggle current={lang} isCompact={isScrolled} />
 
             {/* Mobile Hamburger / Close Button */}
@@ -129,7 +134,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={isMobileMenuOpen}
-              className={`md:hidden flex items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition-all cursor-pointer ${
+              className={`md:hidden flex items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-700 hover:bg-slate-100 active:bg-slate-200 transition-all cursor-pointer dark:border-white/15 dark:bg-white/5 dark:text-neutral-300 dark:hover:bg-white/10 ${
                 isScrolled ? "h-7 w-7" : "h-8 w-8 sm:h-9 sm:w-9"
               }`}
             >
@@ -162,7 +167,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
       {/* ── MOBILE MENU DROPDOWN (FLOATING GLASS CARD) ──────────── */}
       {isMobileMenuOpen && (
         <div className="pointer-events-auto px-4 pt-2 flex justify-center">
-          <div className="md:hidden w-full max-w-[44rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-2xl px-4 py-4 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="md:hidden w-full max-w-[44rem] overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-2xl px-4 py-4 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300 dark:border-white/10 dark:bg-[#0b0f17]/95">
             <NavLinks
               lang={lang}
               dict={dict}
@@ -177,7 +182,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
       {isMobileMenuOpen && (
         <div
           onClick={() => setIsMobileMenuOpen(false)}
-          className="pointer-events-auto md:hidden fixed inset-0 -z-10 h-screen w-screen bg-slate-900/30 backdrop-blur-xs"
+          className="pointer-events-auto md:hidden fixed inset-0 -z-10 h-screen w-screen bg-slate-900/30 backdrop-blur-xs dark:bg-black/60"
           aria-hidden="true"
         />
       )}

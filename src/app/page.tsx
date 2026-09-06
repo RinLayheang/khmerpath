@@ -24,11 +24,11 @@ export default async function HomePage() {
   return (
     <>
       {/* ── HERO SECTION WITH FLUID BACKGROUND & SMART SEARCH ───────── */}
-      <section className="relative -mt-16 border-b border-line bg-gradient-to-b from-slate-100/80 via-white to-surface overflow-hidden pt-16">
+      <section className="relative -mt-16 border-b border-line bg-gradient-to-b from-slate-100/80 via-white to-surface dark:from-[#0B0F17]/95 dark:via-surface dark:to-surface overflow-hidden pt-16">
         <FluidBackground />
         
         <div className="relative z-10 mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20 pointer-events-none [&_a]:pointer-events-auto [&_button]:pointer-events-auto [&_input]:pointer-events-auto [&_form]:pointer-events-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-semibold text-[#0F172A]">
+          <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-semibold text-slate-900 dark:text-amber-200">
             <span className="h-2 w-2 rounded-full bg-gold" />
             {dict.tagline}
           </div>
@@ -110,7 +110,7 @@ export default async function HomePage() {
                 className="card flex flex-col justify-between p-6 transition-all hover:border-gold/60 hover:shadow-md"
               >
                 <div>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-sm font-bold text-slate-900">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-sm font-bold text-slate-900 dark:text-amber-300">
                     {localizeNumber(index + 1, lang)}
                   </div>
                   <h3 className="mt-4 font-bold text-ink text-base">
